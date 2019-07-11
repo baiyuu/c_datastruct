@@ -479,8 +479,8 @@ namespace Hash {
 
     int search(HashTable h, int key, int *addr) {
         *addr = hash(key);//求散列地址
-        while (h.element[*addr] != key) {//如果不为空，则冲突
-            *addr = (*addr + 1) % size;
+        while (h.element[*addr] != key) {//如果当前位置的元素和key不等，则说明发生的冲突，接着按照冲突处理的方法进行查找
+            *addr = (*addr + 1) % size; //线性探测再散列
             if (h.element[*addr] == -1 || *addr == hash(key)) {
                 *addr = -1;
                 return errMsg("没有找到数据", -1);

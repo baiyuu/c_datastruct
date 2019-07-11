@@ -12,6 +12,7 @@
 #include "tree/BTree.h"
 #include "graph/Graph.h"
 #include "search/Search.h"
+#include "sort/Sort.h"
 
 
 namespace ds_1 {
@@ -28,7 +29,8 @@ namespace ds_1 {
 //        String::run();
 //        BTree::run();
 //        Graph::run();
-        Search::run();
+//        Search::run();
+        Sort::run();
     }
 
 }

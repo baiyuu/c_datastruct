@@ -437,6 +437,79 @@ namespace AVL_Tree {
     void test() {
         AVL_Tree t = create();
     }
+
+}
+
+namespace Hash {
+#define SUCCESS 0
+#define FAIL 1
+#define HASH_SIZE 12
+    typedef struct {
+        int *element;//存储地址
+        int count;//当前数据元素的个数
+    } HashTable;
+
+    int size = 11;//散列表长度
+
+    int init(HashTable *h) {
+        h->count = HASH_SIZE;
+        h->element = (int *) malloc(sizeof(int));
+        for (int j = 0; j < h->count; j++) {
+            h->element[j] = -1;
+        }
+
+        return errMsg("初始化哈希表成功！");
+    }
+
+    //哈希函数
+    int hash(int key) {
+        return key % size;
+    }
+
+
+    void insert(HashTable *h, int key) {
+        int addr = hash(key);
+
+        while (h->element[addr] != -1) {
+            addr = (addr + 1) % size;
+        }
+        h->element[addr] = key;
+    }
+
+
+    int search(HashTable h, int key, int *addr) {
+        *addr = hash(key);//求散列地址
+        while (h.element[*addr] != key) {//如果不为空，则冲突
+            *addr = (*addr + 1) % size;
+            if (h.element[*addr] == -1 || *addr == hash(key)) {
+                *addr = -1;
+                return errMsg("没有找到数据", -1);
+            }
+        }
+        return errMsg("查找成功");
+    }
+
+    void test() {
+//        int a[] = {12, 23, 67, 56, 16, 25, 37, 22, 29, 15, 47, 48, 34};
+        HashTable h;
+        init(&h);
+
+        int *p = h.element;
+        insert(&h, 12);
+        insert(&h, 67);
+
+        for (int i = 0; i < HASH_SIZE; i++) {
+            printf("%d\t", p[i]);
+        }
+
+        int f = -1;
+        search(h, 67, &f);
+
+        std::cout << "result:" << f << std::endl;
+
+    }
+
+
 }
 
 namespace Search {
@@ -446,6 +519,7 @@ namespace Search {
 //        BinarySearch::testBsearch();
 //        InterpolationSearch::test();
 //        BOrderTree::test();
-        AVL_Tree::test();
+//        AVL_Tree::test();
+        Hash::test();
     }
 }

@@ -166,17 +166,9 @@ namespace LinkedList {
             return errMsg("需要删除的数据不存在", -1);
 
         q = p->link;
-        printf("q:");
-        ps(q);
-        printf("P1:");
-        ps(p);
         p->link = q->link;
-        printf("P2:");
-        ps(p);
         *e = p->data;
         free(q);
-        ps(list);
-
         return errMsg("删除成功");
     }
 
@@ -215,7 +207,6 @@ namespace LinkedList {
             p = list;
         }
         ps(list);
-
     }
 
 

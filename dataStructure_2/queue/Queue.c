@@ -7,7 +7,7 @@
 int queue[MAXSIZE];
 int front, rear;
 
-runqueue() {
+run queue() {
     INITQUEUE(&front, &rear);
     printf("%d %d", front, rear);
 }

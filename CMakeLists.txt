@@ -16,4 +16,6 @@ add_executable(
         d_1/tree/BTree.h
         d_1/graph/Graph.h
         d_1/search/Search.h
-)
+        d_1/sort/Sort.h 
+        d_2/run.h
+        d_2/sort/Sort_2.h d_3/run_3.h d_3/ds/seq_list/SeqList_3.h d_3/ds/seq_list/LinkList_3.h d_3/ds/stack/Stack_3.h d_3/ds/queue/Queue.h d_3/ds/tree/Tree_3.h d_3/ds/graph/Graph_3.h d_3/sort/Sort_3.h)

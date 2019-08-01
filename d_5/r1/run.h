@@ -618,12 +618,6 @@ namespace sq_stack_5 {
 
 }
 
-namespace link_stack_5 {
-    void test() {
-
-    }
-}
-
 //fifo
 namespace link_queue_5 {
 #define  new_qnode_5 (qPointer) malloc(sizeof(qnode))
@@ -2011,14 +2005,20 @@ namespace sq_list_5_1 {
             printf("%d\t", p->data);
             p = p->next;
         }
+        puts("");
     }
 
 
-    LinkList create(int n = 5) {
+    LinkList create(int n = 5, int code = 1) {
         LinkList list = nullptr, p, r;
         for (int i = 0; i < n; i++) {
             p = newNode;
-            p->data = i + 1;
+            if (code == 1) {
+                p->data = 2 * i + 1;
+            } else {
+                p->data = 2 * i;
+            }
+
             if (list == nullptr) {
                 list = p;
             } else {
@@ -2043,28 +2043,496 @@ namespace sq_list_5_1 {
 
 
     int insert(LinkList &list, int i, int e) {
-        LinkList p = list;
-        while (i-- > 1 && p != nullptr) 
+        LinkList p = list, r;
+        r = newNode;
+        r->data = e;
+        while (i-- > 1 && p != nullptr)
             p = p->next;
-        
-        
-        
+
+        if (p != nullptr) {
+            r->next = p->next;
+            p->next = r;
+            return errCode("insert successful", 1);
+        } else
+            return errCode("insert fail,wrong position", 0);
     }
 
+
+    int del(LinkList &list, int i, int *e) {
+        LinkList p = list, r;
+        int j = 0;
+        while (j < i - 1 && p != nullptr) {
+            p = p->next;
+            j++;
+        }
+
+
+        if (p != nullptr) {
+            r = p->next;
+            p->next = r->next;
+            *e = r->data;
+            free(r);
+            return errCode("del successful", 1);
+        } else {
+            return errCode("del fail wrong position", 0);
+        }
+    }
+
+
+    int merge(LinkList &a, LinkList &b, LinkList &c) {
+        LinkList aa = a->next, bb = b->next, cc = a;
+        c = cc;
+        while (aa != nullptr && bb != nullptr) {
+            if (aa->data > bb->data) {
+                cc->next = aa;
+                cc = aa;
+                aa = aa->next;
+            } else {
+                cc->next = bb;
+                cc = bb;
+                bb = bb->next;
+            }
+        }
+
+        c->next = aa ? aa : bb;
+        free(b);
+    }
 
     void testLinkList() {
-        LinkList list = create();
+        LinkList list = create(5, 1);
+        LinkList list_2 = create(6, 2);
         ps_link_list(list);
-        int a;
-        get(list, 2, &a);
-        std::cout << a << std::endl;
+        ps_link_list(list_2);
+        LinkList list_3 = nullptr;
+        merge(list, list_2, list_3);
+        ps_link_list(list_3);
+    }
 
+    LinkList create_3(int n = 5) {
+        LinkList list = nullptr, p, r;
+        for (int i = 0; i < n; i++) {
+            p = newNode;
+            p->data = i;
+            p->next = nullptr;
+            if (list == nullptr) {
+                list = p;
+            } else {
+                r->next = p;
+            }
+            r = p;
+        }
+        return list;
+    }
+
+    int len(LinkList a) {
+        int n = 0;
+        LinkList b = a;
+        while (b != nullptr) {
+            b = b->next;
+            n++;
+        }
+        return n;
+    }
+
+    int len_traverse(LinkList a) {
+        if (a != nullptr) {
+            return 1 + len_traverse(a->next);
+        } else {
+            return 0;
+        }
+    }
+
+    LinkList locate(LinkList a, int data) {
+        LinkList p = a;
+        while (p != nullptr && p->data != data)
+            p = p->next;
+
+        return p;
     }
 
 
+    int insertFirst(LinkList &a, int data) {
+        LinkList p = newNode;
+        p->data = data;
+        if (a == nullptr) {
+            p->next = nullptr;
+            a = p;
+        } else {
+            p->next = a;
+            a = p;
+        }
+    }
+
+    int insertLast(LinkList a, int e) {
+        LinkList p = a, q = newNode;
+        q->data = e;
+        q->next = nullptr;
+        while (p->next != nullptr)
+            p = p->next;
+
+        p->next = q;
+    }
+
+    int insertAfterNode(LinkList &a, LinkList &b, int e) {
+        LinkList p = newNode;
+        p->data = e;
+
+        if (a == nullptr) {
+            a = p;
+        } else {
+            p->next = b->next;
+            b->next = p;
+        }
+    }
+
+    int insertAfterIndex(LinkList a, int i, int e) {
+        LinkList p = a, q = newNode;
+        while (i-- > 1 && p != nullptr)
+            p = p->next;
+
+        if (p == nullptr || i < 0)
+            return errCode("insert fail", 0);
+
+        q->data = e;
+        q->next = p->next;
+        p->next = q;
+        return errCode("insert success", 1);
+    }
+
+    /*
+     * 在有序链表中插入数据
+     */
+    int insertByOrder(LinkList &a, int e) {
+        LinkList p = a, q = newNode, r;
+        q->data = e;
+        if (a == nullptr || e < a->data) {
+            q->next = a;
+            a = q;
+        } else {
+            while (p != nullptr && e >= p->data) {
+                r = p;
+                p = p->next;
+            }
+            q->next = p;
+            r->next = q;
+        }
+    }
+
+    int delAllSameData(LinkList &a, int e) {
+        LinkList p = a, q = a->next;
+        while (q != nullptr) {
+            if (q->data == e) {
+                p->next = q->next;
+                free(q);
+                q = p->next;
+            } else {
+                p = q;
+                q = q->next;
+            }
+        }
+
+        if (a->data == e) {
+            p = a;
+            a = a->next;
+            free(p);
+        }
+
+    }
+
+    int delAllSameData_2(LinkList &a, int e) {
+        LinkList p = a, r = a->next;
+        while (r != nullptr) {
+            if (r->data == e) {
+                p->next = r->next;
+                free(r);
+                r = p->next;
+            } else {
+                p = r;
+                r = r->next;
+            }
+        }
+
+        if (a->data == e) {
+            p = a;
+            a = a->next;
+            free(p);
+        }
+
+    }
+
+    int reverse(LinkList &a) {
+        LinkList q, w, e;
+        q = a;
+        w = nullptr;
+        while (q != nullptr) {
+            e = w;
+            w = q;
+            q = q->next;
+            w->next = e;
+        }
+        a = w;
+    }
+
+
+    void test_2() {
+        LinkList a = create_3(7);
+        ps_link_list(a);
+//        std::cout << "len=" << len(a) << std::endl;
+//        std::cout << "len=" << len_traverse(a) << std::endl;
+//        LinkList aa = locate(a, 4);
+        insertLast(a, 3);
+        insertFirst(a, 3);
+//        insertAfterNode(a, aa, 88);
+        insertByOrder(a, 3);
+        ps_link_list(a);
+        delAllSameData_2(a, 3);
+        ps_link_list(a);
+        reverse(a);
+        ps_link_list(a);
+
+    }
+
+    /*
+     * 约瑟夫问题
+     * n个人，从1开始编号， 编号k的人开始从1报数，数到m的那个人滚蛋 ，下一个继续从1开始报数，直到全部滚蛋
+     * 
+     * 使用n个结点的不带头循环链表解决问题
+     * 
+     * 1、建立链表
+     * 2、确定第一次报数的位置
+     * 3、不断删除，重复执行
+     */
+    int josePuhs(int n, int m, int k) {
+        LinkList p, r, list = nullptr;
+        /*
+         * 建立链表
+         */
+        for (int i = 1; i <= n; i++) {
+            p = newNode;
+            p->data = i;
+            if (list == nullptr) {
+                list = p;
+            } else {
+                r->next = p;
+            }
+            r = p;
+        }
+        p->next = list;
+        p = list;
+
+        /*
+         * 找第一次开始的点
+         */
+        for (int j = 1; j < k; j++) {
+            r = p;
+            p = p->next;
+        }
+
+        /*
+         * 报数出队
+         */
+        while (p->next != p) {
+            for (int i = 1; i < m; i++) {
+                r = p;
+                p = p->next;
+            }
+            r->next = p->next;
+            printf("%d\t", p->data);
+            free(p);
+            p = r->next;
+        }
+    }
+
+    int j_1(int n, int m, int k) {
+        LinkList p, r, list = nullptr;
+        //1 建立链表
+        for (int i = 0; i < n; i++) {
+            p = newNode;
+            p->data = i + 1;
+            if (list == nullptr)
+                list = p;
+            else
+                r->next = p;
+            r = p;
+        }
+
+        p->next = list;
+        p = list;
+
+        //2 找开始点
+        for (int j = 1; j < k; j++) {
+            r = p;
+            p = p->next;
+        }
+
+        //3 循环出队
+        while (p->next != p) {
+            for (int i = 1; i < m; i++) {
+                r = p;
+                p = p->next;
+            }
+            r->next = p->next;
+            std::cout << p->data << std::endl;
+            free(p);
+            p = r->next;
+        }
+    }
+
+    /*
+     * 双向循环链表
+     */
+    typedef struct dnode {
+        int data;
+        dnode *prior, *next;
+    } dnode, *dlist;
+
+
+    int dlist_insert(dlist list, int i, int e) {
+        dlist p, q;
+        q = list->next;
+        while (q != list && i-- > 1)
+            q = q->next;
+
+        if (q == list)
+            return errCode("插入位置不合理", 0);
+
+        p = (dlist) malloc(sizeof(dnode));
+        p->data = e;
+
+        p->next = q->next;
+        p->prior = q;
+
+        q->next->prior = p;
+        q->next = p;
+    }
+
+    int dlist_del(dlist list, int i, int *e) {
+        dlist q;
+        q = list->next;
+        while (q != list && i-- > 1)
+            q = q->next;
+
+        if (q == list)
+            return errCode("删除位置不合理", 0);
+
+        *e = q->data;
+
+        q->next->prior = q->prior;
+        q->prior->next = q->next;
+        free(q);
+    }
+
+    /*
+     * 一元多项式
+     */
+
+    typedef struct pnode {
+        int coef;//系数
+        int exp;
+        struct pnode *next;
+    } pnode, *plist;
+
+    /*
+     * 末尾追加结点
+     */
+    plist p_append(int c, int e, plist p) {
+        plist w = (plist) malloc(sizeof(pnode));
+        w->exp = e;
+        w->coef = c;
+        p->next = w;
+        return w;
+    }
+
+    /*
+     * 两个一元多项式相加
+     */
+    plist p_add(plist a, plist b) {
+        //c 为结果首地址
+        plist c = (plist) malloc(sizeof(pnode));
+
+        plist r = c, p = a, q = b;
+        int x;
+
+        while (p != nullptr && q != nullptr) {
+            if (p->exp == q->exp) {
+                x = p->exp + q->exp;
+                if (x != 0)
+                    r = p_append(x, p->exp, r);
+                p = p->next;
+                q = q->next;
+            } else if (p->exp > q->exp) {
+                r = p_append(p->coef, p->exp, r);
+                p = p->next;
+            } else {
+                r = p_append(q->coef, q->exp, r);
+                q = q->next;
+            }
+        }
+
+        while (p != nullptr) {
+            r = p_append(p->coef, p->exp, r);
+            p = p->next;
+        }
+
+        while (q != nullptr) {
+            r = p_append(q->coef, q->exp, r);
+            q = q->next;
+        }
+
+        r->next = nullptr;
+        p = c;
+        c = c->next;
+        free(p);
+        return c;
+    }
+
+    plist p_append_1(int c, int e, plist p) {
+        plist w = (plist) malloc(sizeof(pnode));
+        w->coef = c;
+        w->exp = e;
+        p->next = w;
+        return w;
+    }
+
+    plist p_add_1(plist a, plist b) {
+        plist c = (plist) malloc(sizeof(pnode));
+        plist r = c, p = a, q = b;
+        while (q != nullptr && p != nullptr) {
+            if (p->exp == q->exp) {
+                int x = p->coef + q->coef;
+                if (x != 0)
+                    r = p_append(x, p->exp, r);
+                p = p->next;
+                q = q->next;
+            } else if (p->exp > q->exp) {
+                r = p_append(p->coef, p->exp, r);
+                p = p->next;
+            } else {
+                r = p_append(q->coef, q->exp, r);
+                q = q->next;
+            }
+        }
+
+        while (q != nullptr) {
+            r = p_append(q->coef, q->exp, r);
+            q = q->next;
+        }
+
+        while (p != nullptr) {
+            r = p_append(p->coef, p->exp, r);
+            p = p->next;
+        }
+
+        r->next = nullptr;
+        p = c;
+        c = c->next;
+        free(p);
+        return c;
+    }
+
     void test() {
-//        testInsert();
-        testLinkList();
+//        test_2();
+        j_1(10, 3, 5);
     }
 
 }

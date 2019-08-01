@@ -28,5 +28,5 @@ add_executable(
         d_3/ds/graph/Graph_3.h
         d_3/sort/Sort_3.h 
         d_4/run.h 
-        d_4/sort/sort_4.h 
-        d_5/run.h)
+        d_4/sort/sort_4.h
+        d_5/r1/run.h d_5/run_2.h)

@@ -1725,7 +1725,6 @@ namespace sort_5 {
                 break;
             }
         }
-//        ps_int(a, n);
     }
 
     int heap_sort_1(int *a, int n) {

@@ -387,7 +387,6 @@ namespace dynamic_sq_link_list_5 {
 }
 
 namespace static_sq_link_list_5 {
-#define size 10
     typedef struct {
         int data;
         int cursor;
@@ -549,7 +548,7 @@ namespace sq_stack_5 {
      * @param a 数组模拟数字
      * @param n 数组长度
      * @param o 几进制
-     * @return 
+     * @return
      */
     int coversion(int num, int o = 2) {
         SqStack s;
@@ -596,7 +595,7 @@ namespace sq_stack_5 {
 
 
     /*
-     * 算法补充 
+     * 算法补充
      */
     /*
      * 两个栈共享一个数组空间
@@ -634,7 +633,7 @@ namespace link_queue_5 {
 
     /*
      * 基本操作
-     * init destory clear isEmpty size getHead enQueue dequeue traverse 
+     * init destory clear isEmpty size getHead enQueue dequeue traverse
      */
 
     int ps_queue(Queue *q) {
@@ -783,14 +782,14 @@ namespace tree_5 {
 
     /*
      *   测试使用
-     *   
+     *
      *  d f e b i g j k h c a
      *  f d e b i g j k h c a
         B-D-E-F-C-G-I-H-J-K-A-
      *             a
      *      b           c
      *   d    e       g     h
-     *          f   i     j   k 
+     *          f   i     j   k
      */
     BTree tree() {
         BTree a, b, c, d, e, f, g, h, i, j, k;
@@ -979,12 +978,12 @@ namespace tree_5 {
      * 遍历序列 恢复二叉树
      * 前序 a b c d e f g h i
      * 中序 b c a e d g h f i
-     *              
+     *
      *              a                      a                     a                     a
      *          bc    edghfi           b      d              b       d             b        d
-     *                                   c  e  ghfi            c   e   f             c    e    f 
-     *                                                               gh  i                   g   i      
-     *                                                                                         h                                                             
+     *                                   c  e  ghfi            c   e   f             c    e    f
+     *                                                               gh  i                   g   i
+     *                                                                                         h
      */
 
 
@@ -992,7 +991,7 @@ namespace tree_5 {
      *二叉树相似与等价
      * 相似：结构一致
      * 等价：结构一致且每个结点的数据相同
-     * 
+     *
      */
 
     int similar(BTree t1, BTree t2) {
@@ -1123,7 +1122,7 @@ namespace tree_5 {
     /*
      * 7、二叉树的删除
      *  删除指定结点及其子树
-     * 
+     *
      */
     BTree del(BTree t, Element e) {
         BTree stack[22], p = t, q;
@@ -1259,10 +1258,10 @@ namespace tree_5 {
      *    为叶结点
      *    有一个子节点(左或右)
      *    有两个子节点
-     *    
-     *    p  要删除的结点 
+     *
+     *    p  要删除的结点
      *    q  p的双亲结点
-     *    
+     *
      *    ****************问题代码
      */
     int del_(BTree &t, BTree p, BTree q) {
@@ -1955,7 +1954,7 @@ namespace sq_list_5_1 {
         *a = e;
 
 
-//        for (int i = list.length - 1; i >= p; i++) 
+//        for (int i = list.length - 1; i >= p; i++)
 //            list.data[i + 1] = list.data[i];
 //        list.data[p-1]=e;
 
@@ -2294,9 +2293,9 @@ namespace sq_list_5_1 {
     /*
      * 约瑟夫问题
      * n个人，从1开始编号， 编号k的人开始从1报数，数到m的那个人滚蛋 ，下一个继续从1开始报数，直到全部滚蛋
-     * 
+     *
      * 使用n个结点的不带头循环链表解决问题
-     * 
+     *
      * 1、建立链表
      * 2、确定第一次报数的位置
      * 3、不断删除，重复执行

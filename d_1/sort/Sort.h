@@ -157,7 +157,7 @@ namespace ShellSort {
 
     //正确算法
     void sort_1(int *a, int n) {
-        //12	67	56	16	25	37	22	15	47	34	
+        //12	67	56	16	25	37	22	15	47	34
         int i, j, g = n, f;
         do {
             g = g / 2 + 1;

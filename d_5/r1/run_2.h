@@ -341,11 +341,11 @@ namespace strint_5_1 {
 }
 
 /*
- * init destory  
- * create clear isempth depth root value assign parent 
- * left right insert delete 
+ * init destory
+ * create clear isempth depth root value assign parent
+ * left right insert delete
  * preOrderTraverse inOrderTraverse postOrderTraverse levelOrderTraverse
- * 
+ *
  */
 namespace btree_5_1 {
 #define treeNode (Btree)malloc(sizeof(node))
@@ -356,14 +356,14 @@ namespace btree_5_1 {
 
     /*
  *   测试使用
- *   
+ *
  *  d f e b i g j k h c a
  *  f d e b i g j k h c a
     B-D-E-F-C-G-I-H-J-K-A-
  *             a
  *      b           c
  *   d    e       g     h
- *          f   i     j   k 
+ *          f   i     j   k
  */
     Btree tree() {
         Btree a, b, c, d, e, f, g, h, i, j, k;
@@ -1062,9 +1062,9 @@ namespace sort_5_1 {
                 }
             }
 
-            for (int j = i - 1; j >= low; j--) {
+            for (int j = i - 1; j >= low; j--)
                 a[j + 1] = a[j];
-            }
+
             a[low] = t;
         }
     }
@@ -1198,22 +1198,48 @@ namespace sort_5_1 {
 
     };
 
-    
-    /*
-     * 1324 6857
-     * 
-     * left right   mid
-     * 0    7       3 
-     * 
-     * t[5]
-     * 
-     * 
-     */
-    
     int merge_1(int *a, int left, int right, int mid) {
         int t[right - left + 1], i = left, j = mid + 1;
-
+        //从左到右复制到临时数组中；
         for (int k = left; k <= right; k++)
+            t[k - left] = a[k];
+        for (int k = left; k <= right; k++) {
+            if (i > mid) {//左边越界处理
+                a[k] = t[j - left];
+                j++;
+            } else if (j > right) {//右边越界处理
+                a[k] = t[i - left];
+                i++;
+            }
+                //左右两部分比较大小
+            else if (t[i - left] > t[j - left]) {
+                //右边的小，补到原数组中，同时右游标后移
+                a[k] = t[j - left];
+                j++;
+            } else {
+                //左边的小，左边的元素补到原数组中，同时左游标后移
+                a[k] = t[i - left];
+                i++;
+            }
+        }
+    }
+
+    /*
+     * https://blog.csdn.net/k_koris/article/details/80508543
+     */
+    int merge_sort_1(int *a, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            merge_sort_1(a, left, mid);
+            merge_sort_1(a, mid + 1, right);
+            merge_1(a, left, right, mid);
+        }
+    }
+
+    int merge_2(int *a, int left, int right, int mid) {
+        int t[right - left + 1], i = left, j = mid + 1;
+
+        for (int k = left; k <= right; ++k)
             t[k - left] = a[k];
 
         for (int k = left; k <= right; k++) {
@@ -1231,24 +1257,40 @@ namespace sort_5_1 {
                 i++;
             }
         }
-
     }
-    /*
-     * https://blog.csdn.net/k_koris/article/details/80508543
-     */
-    int merge_sort_1(int *a, int left, int right) {
+
+    int merge_sort_2(int *a, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
-            merge_sort_1(a, left, mid);
-            merge_sort_1(a, mid + 1, right);
-            merge_1(a, left, right, mid);
+            merge_sort_2(a, left, mid);
+            merge_sort_2(a, mid + 1, right);
+            merge_2(a, left, right, mid);
         }
     }
 
-    
-    
-    
-    
+
+    int adj_heap_2(int *a, int i, int n) {
+        int t = a[i];
+        for (int j = 2 * i + 1; j < n; j = j * 2 + 1) {
+            if (j + 1 < n && a[j] > a[j + 1])
+                j++;
+            if (a[j] < t) {
+                swap(&a[i], &a[j]);
+                i = j;
+            } else break;
+        }
+    }
+
+    int heap_sort_2(int *a, int n) {
+        for (int i = n / 2 - 1; i >= 0; i--)
+            adj_heap_2(a, i, n);
+
+        for (int j = n - 1; j >= 0; j--) {
+            swap(&a[j], &a[0]);
+            adj_heap_2(a, 0, j);
+        }
+    }
+
     void test() {
         ps_int(a, 10);
 //        bubble_sort_2(a, 10);
@@ -1257,9 +1299,8 @@ namespace sort_5_1 {
 //        select_sort_2(a, 10);
 //        shell_sort_2(a, 10);
 //        quick_sort_2(a, 0, 10);
-//        merge_sort_1(a, 0, 10 - 1);
-        merge_sort_1(a, 0, 10 - 1);
-//        heap_sort_1(a, 10);
+//        merge_sort_2(a, 0, 10 - 1);
+        heap_sort_2(a, 10);
         ps_int(a, 10);
     }
 

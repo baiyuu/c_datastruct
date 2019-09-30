@@ -188,7 +188,6 @@ namespace sort_5_2 {
                 count[k]++;
             }
 
-            //
             for (int j = 1; j < 10; ++j)
                 count[j] = count[j - 1] + count[j];
             //将桶中的记录放到temp中

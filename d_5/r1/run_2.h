@@ -224,7 +224,6 @@ namespace strint_5_1 {
             return -1;
     }
 
-
     int next_1(cstring t, int *a) {
         int len = strlen(t);
         int i = 1, j = 0;
@@ -237,7 +236,6 @@ namespace strint_5_1 {
                 a[i] = j;
             } else
                 j = a[j];
-
     }
 
     int nextval_1(cstring t, int *a) {
@@ -549,7 +547,6 @@ namespace btree_5_1 {
             && similar(t1->right, t2->right))
             return 1;
         return 0;
-
     }
 
     int equality(Btree t1, Btree t2) {

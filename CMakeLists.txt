@@ -31,4 +31,4 @@ add_executable(
 #        d_4/sort/sort_4.h
 #        d_5/r1/run.h d_5/r1/run_2.h
 #        d_5/r1/sort_5_2.h
-        d_5/run_3.h)
+        d_5/r1/run_3.h d_5/r4.h)

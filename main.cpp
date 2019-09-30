@@ -6,7 +6,8 @@
 //#include "d_5/r1/run.h"
 //#include "d_5/r1/run_2.h"
 //#include "d_5/r1/sort_5_2.h"
-#include "d_5/run_3.h"
+#include "d_5/r1/run_3.h"
+#include "d_5/r4.h"
 
 
 int errCode(string msg, int code = -1) {
@@ -45,7 +46,8 @@ int main() {
 //    ds_5::test();//数据结构 one
 //    ds_5_1::test();//数据结构 two
 //    sort_5_2::test();
-        run_3::test();
+//        run_3::test();
+        r4::test();
         return 0;
     } catch (...) {
         std::cout << "catch (...)" << std::endl;

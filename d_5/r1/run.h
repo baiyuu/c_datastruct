@@ -783,13 +783,16 @@ namespace tree_5 {
     /*
      *   测试使用
      *
-     *  d f e b i g j k h c a
-     *  f d e b i g j k h c a
-        B-D-E-F-C-G-I-H-J-K-A-
      *             a
      *      b           c
      *   d    e       g     h
      *          f   i     j   k
+     *
+     *    pre   abdefcgihjk
+     *    in    dbefaigcjhk
+     *    post  dfebigjkhca
+     *
+     *
      */
     BTree tree() {
         BTree a, b, c, d, e, f, g, h, i, j, k;
